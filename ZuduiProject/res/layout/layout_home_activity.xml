@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+<!-- 
+    <ListView
+        android:id="@+id/homeactivity_listview_activities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView> -->
+    
+	<TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </TextView>
+	
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/homeactivity_button_profile_space"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/pic_profile_space"
+                />
+
+            <ImageButton
+                android:id="@+id/homeactivity_button_create_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/pic_create_activity"
+                />
+
+            <ImageButton
+                android:id="@+id/homeactivity_button_friends"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/pic_friends"
+                />
+        </LinearLayout>
+        
+</RelativeLayout>

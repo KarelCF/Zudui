@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sorting_method">
+        <item>最少空位</item>
+        <item>附近活动</item>
+        <item>好友活动</item>
+    </string-array>
+    
+</resources>
