@@ -26,7 +26,7 @@
             android:orientation="horizontal" >
 
             <ImageButton
-                android:id="@+id/homeactivity_button_profile_space"
+                android:id="@+id/home_activity_button_profile_space"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_weight="1"
@@ -34,7 +34,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/homeactivity_button_create_activity"
+                android:id="@+id/home_activity_button_create_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_weight="1"
@@ -42,7 +42,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/homeactivity_button_friends"
+                android:id="@+id/home_activity_button_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_weight="1"

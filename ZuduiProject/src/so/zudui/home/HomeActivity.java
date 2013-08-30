@@ -7,13 +7,19 @@ import so.zudui.database.UpdateMyLocationUtil;
 import so.zudui.entity.User;
 import so.zudui.handler.condition.HandlerConditions;
 import so.zudui.launch.activity.R;
+import so.zudui.space.MySpaceActivity;
 import so.zudui.util.EntityTableUtil;
 import so.zudui.webservice.WebServiceUtil;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +36,10 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
 public class HomeActivity extends SherlockActivity implements OnNavigationListener {
 	
 	private TextView textView = null;
+	private ImageButton profileSpaceBtn = null;
+	private ImageButton createActivityBtn = null;
+	private ImageButton friendsBtn = null;
+	
 	private User user = EntityTableUtil.getUser();
 	private String[] sortingMethods;
 	private GetMyLocationHandler getMyLocationHandler = new GetMyLocationHandler(this);
@@ -43,8 +53,8 @@ public class HomeActivity extends SherlockActivity implements OnNavigationListen
 		setContentView(R.layout.layout_home_activity);
 		this.setTitle("              ");
 		initListNavigation();
-		initLocationService();
 		initHomeActivityView();
+		initLocationService();
 	}
 	
 	private void initListNavigation() {
@@ -55,7 +65,8 @@ public class HomeActivity extends SherlockActivity implements OnNavigationListen
         
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(listNavigationAdapter, this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        
         
         sortingMethods = getResources().getStringArray(R.array.sorting_method);
         
@@ -66,6 +77,7 @@ public class HomeActivity extends SherlockActivity implements OnNavigationListen
 	public MyLocationListener myLocationListener = new MyLocationListener(getMyLocationHandler);
 	private LocationClient locationClient = null;
 	private LocationData mylocationData;
+	
 	private void initLocationService() {
 		// 定位初始化
         locationClient = new LocationClient(this);
@@ -80,6 +92,29 @@ public class HomeActivity extends SherlockActivity implements OnNavigationListen
 	
 	private void initHomeActivityView() {
 		textView = (TextView) findViewById(R.id.textView);
+		profileSpaceBtn = (ImageButton) findViewById(R.id.home_activity_button_profile_space);
+		createActivityBtn = (ImageButton) findViewById(R.id.home_activity_button_create_activity);
+		friendsBtn = (ImageButton) findViewById(R.id.home_activity_button_friends);
+		OnClickListener homeBtnListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.home_activity_button_profile_space:
+					Intent intent = new Intent(HomeActivity.this, MySpaceActivity.class);
+					startActivity(intent);
+					break;
+				case R.id.home_activity_button_create_activity:
+					break;
+				case R.id.home_activity_button_friends:
+					break;
+					
+				}
+			}
+		}; 
+		profileSpaceBtn.setOnClickListener(homeBtnListener);
+		createActivityBtn.setOnClickListener(homeBtnListener);
+		friendsBtn.setOnClickListener(homeBtnListener);
+		
 	}
 	
 	private static class GetMyLocationHandler extends Handler {
@@ -148,14 +183,15 @@ public class HomeActivity extends SherlockActivity implements OnNavigationListen
 			homeActivity = weakReference.get();
 			switch(msg.what) {
 			case HandlerConditions.UPDATE_MY_LOCATION_SQLITE_SUCCESS:
-				Toast.makeText(homeActivity, "查找活动中..", Toast.LENGTH_SHORT).show();
+				// TODO 查找活动列表
+				/*Toast.makeText(homeActivity, "查找活动中..", Toast.LENGTH_SHORT).show();
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
 						homeActivity.webServiceUtil.queryActivityOrderByRest(homeActivity.mylocationData.longitude, homeActivity.mylocationData.latitude);
 					}
 				}).start();
-				break;
+				break;*/
 			}
 		}
 		

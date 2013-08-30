@@ -1,0 +1,44 @@
+package so.zudui.database;
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import so.zudui.entity.User;
+import so.zudui.util.EntityTableUtil;
+
+public class UpdatePhotosUtil {
+	private User user = EntityTableUtil.getUser();
+	private Context context;
+	
+	public UpdatePhotosUtil(Context context) {
+		this.context = context;
+	}
+	
+	public void updatePhotos() {
+		new Thread(new DatabaseOperationThread()).start();
+	}
+	
+	private class DatabaseOperationThread implements Runnable {
+		
+		@Override
+		public void run() {
+			ContentResolver resolver = context.getContentResolver();
+			Uri UserProviderURI = Users.CONTENT_URI;
+			String[] projection = { Users.SHOWIMAGES }; 
+			String selection = Users.UID + "=?";
+			String[] selectionArgs = {user.getUid()};
+			Cursor cursor = resolver.query(Users.CONTENT_URI, projection, selection, selectionArgs, null);
+			for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+				ContentValues values = new ContentValues();
+				values.put(Users.SHOWIMAGES, user.getShowimages());
+				resolver.update(UserProviderURI, values, selection, selectionArgs);
+			}
+		
+		}
+		
+	}
+	
+	
+}

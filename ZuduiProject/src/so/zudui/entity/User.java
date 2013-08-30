@@ -8,7 +8,7 @@ public class User {
 	private String upicurl;
 	private int sex;
 	private String city;
-	private int score;
+	private int scord;
 	private String devtoken;
 	private double longitude;
 	private double latitude;
@@ -53,10 +53,10 @@ public class User {
 		this.city = city;
 	}
 	public int getScore() {
-		return score;
+		return scord;
 	}
 	public void setScore(int score) {
-		this.score = score;
+		this.scord = score;
 	}
 	public String getDevtoken() {
 		return devtoken;

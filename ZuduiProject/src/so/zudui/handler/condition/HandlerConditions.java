@@ -18,5 +18,9 @@ public interface HandlerConditions {
 	public static final int UPDATE_MY_LOCATION_SERVER_FAILED = 9;
 	public static final int UPDATE_MY_LOCATION_SQLITE_FAILED = 10;
 	
+	// MySpaceActivity π”√
+	public static final int GET_MY_SCORE = 11;
+	public static final int UPLOAD_MY_PHOTOS = 12;
+	
 	
 }

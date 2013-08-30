@@ -16,5 +16,18 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="get_photos_dialog" parent="@android:style/Theme.Dialog">        
+        <item name="android:windowNoTitle">true</item>        
+        <item name="android:windowFullscreen">true</item>  
+        <item name="android:windowBackground">@drawable/filled_box</item>        
+        <item name="android:windowIsTranslucent">true</item>        
+        <item name="android:windowAnimationStyle">@style/dialog_animation</item>    
+    </style>
+    
+    <style name="dialog_animation">        
+        <item name="android:windowEnterAnimation">@anim/fading_in</item>        
+        <item name="android:windowExitAnimation">@anim/fading_out</item>    
+    </style>
 
 </resources>

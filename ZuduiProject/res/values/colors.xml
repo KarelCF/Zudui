@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    
+    <color name="text_faith_light">#ffffffff</color>
+	<color name="background_activities_light">#ffffffff</color>
+	
+	<color name="background_photos_dark">#ff000000</color>
+	<color name="background_myspace_dark">#ff000000</color>
+	
+	<color name="text_photos_light">#ffffffff</color>
+	<color name="background_photos_dark">#ff000000</color>
+	
+</resources>

@@ -9,11 +9,14 @@ public class WebServiceConstants {
     
     // 请求服务的action
     // 登陆时
-    public static final String SOAP_ACTION_USER_LOGIN  = "http://service.coffe.com/userLogin";
-    public static final String SOAP_ACTION_UPDATE_USER_LOCATION  = "http://service.coffe.com/updateUserLocation";
-    public static final String SOAP_ACTION_UPDATE_USER_DEVICE_TOKEN  = "http://service.coffe.com/updateUserDeviceToken";
+    public static final String SOAP_ACTION_USER_LOGIN = "http://service.coffe.com/userLogin";
+    public static final String SOAP_ACTION_UPDATE_USER_LOCATION = "http://service.coffe.com/updateUserLocation";
+    public static final String SOAP_ACTION_UPDATE_USER_DEVICE_TOKEN = "http://service.coffe.com/updateUserDeviceToken";
     // 查找活动
-    public static final String SOAP_ACTION_QUERY_ACTIVITY_ORDER_BY_REST  = "http://service.coffe.com/queryActivityOrderByKongwei";
+    public static final String SOAP_ACTION_QUERY_ACTIVITY_ORDER_BY_REST = "http://service.coffe.com/queryActivityOrderByKongwei";
+    // 上传&删除相册
+    public static final String SOAP_ACTION_UPLOAD_PHOTOS = "http://service.coffe.com/uploadUserShowimages";
+    public static final String SOAP_ACTION_DELETE_PHOTOS = "http://service.coffe.com/deleteUserShowimages";
     
     
     // 调用的方法名
@@ -22,5 +25,8 @@ public class WebServiceConstants {
     public static final String METHOD_UPDATE_USER_LOCATION = "updateUserLocation";
     public static final String METHOD_UPDATE_USER_DEVICE_TOKEN = "updateUserDeviceToken";
     // 查找活动
-    public static final String METHOD_QUERY_ACTIVITY_ORDER_BY_REST  = "queryActivityOrderByKongwei";
+    public static final String METHOD_QUERY_ACTIVITY_ORDER_BY_REST = "queryActivityOrderByKongwei";
+    // 上传&删除相册
+    public static final String METHOD_UPLOAD_PHOTOS = "uploadUserShowimages";
+    public static final String METHOD_DELETE_PHOTOS = "deleteUserShowimages";
 }
