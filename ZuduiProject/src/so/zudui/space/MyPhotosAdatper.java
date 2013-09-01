@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import so.zudui.database.UpdatePhotosUtil;
+import so.zudui.entity.User;
 import so.zudui.launch.activity.R;
+import so.zudui.util.EntityTableUtil;
+import so.zudui.util.ListAndArrayConversionUtil;
+import so.zudui.webservice.WebServiceUtil;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,8 +34,16 @@ public class MyPhotosAdatper extends BaseAdapter {
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
 	
+	private User user = EntityTableUtil.getUser();
+	
 	public MyPhotosAdatper(Context context) {
 		this.context = context;
+		// TODO 周日修改，这里是缓存机制的改动
+		String photoUrls = user.getShowimages();
+		if(!photoUrls.equals(",")) {
+			String[] photoUrlsArray = photoUrls.split(",");
+			photoUrlList = ListAndArrayConversionUtil.arrayToList(photoUrlsArray);
+		}
 		photoUrlList.add("drawable://" + R.drawable.pic_add_photo);
 		imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 		initLoaderOptions();
@@ -68,7 +81,23 @@ public class MyPhotosAdatper extends BaseAdapter {
 	}
 	
 	public void deletePicFromList(int position) {
+		// TODO 周日修改
 		photoUrlList.remove(position);
+		String[] photosUrl = ListAndArrayConversionUtil.listToArray(photoUrlList);
+		StringBuffer buffer = new StringBuffer(",");
+		for (int i = 0; i < photosUrl.length; i++)
+			buffer.append(photosUrl[i] + ",");
+		user.setShowimages(buffer.toString());
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				WebServiceUtil webServiceUtil = new WebServiceUtil();
+				webServiceUtil.deleteUserShowImages(user.getShowimages());
+			}
+		}).start();
+		UpdatePhotosUtil updatePhotosUtil = new UpdatePhotosUtil(context);
+		updatePhotosUtil.updatePhotos();
+		
 	}
 	
 	@Override

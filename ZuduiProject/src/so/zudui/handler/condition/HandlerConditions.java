@@ -21,6 +21,8 @@ public interface HandlerConditions {
 	// MySpaceActivity π”√
 	public static final int GET_MY_SCORE = 11;
 	public static final int UPLOAD_MY_PHOTOS = 12;
+	public static final int DELETE_MY_PHOTOS_BEGIN = 13;
+	public static final int DELETE_MY_PHOTOS_FINISH = 14;
 	
 	
 }

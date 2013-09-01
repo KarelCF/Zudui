@@ -1,8 +1,6 @@
 package so.zudui.space;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +21,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,7 +33,6 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -71,6 +68,8 @@ public class MySpaceActivity extends SherlockActivity {
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
 	
+	private ProgressDialog progressDialog = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,6 +87,13 @@ public class MySpaceActivity extends SherlockActivity {
 	
 	private void initMySpaceActivityView() {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// TODO 周日改动
+		myPhotosAdapter = new MyPhotosAdatper(this);
+		if(myPhotosAdapter.getCount() > 1) {
+			photoAreaGridLayout.setVisibility(View.VISIBLE);
+			photoAreaTextLayout.setVisibility(View.GONE);
+		}
+		
 		myAvatarImageView = (ImageView) findViewById(R.id.myspace_activity_imageview_avatar);
 		myGenderImageView = (ImageView) findViewById(R.id.myspace_activity_imageview_gender);
 		myFaithTextView = (TextView) findViewById(R.id.myspace_activity_textview_faith);
@@ -103,7 +109,7 @@ public class MySpaceActivity extends SherlockActivity {
 				photoAreaTextLayout.setVisibility(View.GONE);
 			}
 		});
-		myPhotosAdapter = new MyPhotosAdatper(this);
+		
 		photosGridView.setAdapter(myPhotosAdapter);
 		photosGridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -121,7 +127,7 @@ public class MySpaceActivity extends SherlockActivity {
 	
 	private void getPhotosDialog() {            
 		final Dialog dialog = new Dialog(MySpaceActivity.this, R.style.get_photos_dialog);            
-		dialog.setContentView(R.layout.verify_dialog);            
+		dialog.setContentView(R.layout.dialog_choose_photos);            
 		dialog.setCanceledOnTouchOutside(true);            
 		dialog.setCancelable(true);    
 		
@@ -183,14 +189,14 @@ public class MySpaceActivity extends SherlockActivity {
 			
 			// 获取序列化数据传到服务器
 			ContentResolver resolver = this.getContentResolver();
-			UploadPicturesUtil uploadPicturesUtil = new UploadPicturesUtil();
+			SerializePicturesUtil uploadPicturesUtil = new SerializePicturesUtil();
 			final byte[] bitmapBuffer = uploadPicturesUtil.getByteArrayByUri(photoUri, resolver);
 			webServiceUtil = new WebServiceUtil(updateMyPhotosHandler); 
 			new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
-					webServiceUtil.uploadUserShowimages(bitmapBuffer);
+					webServiceUtil.uploadUserShowImages(bitmapBuffer);
 				}
 			}).start();
 		}
@@ -201,14 +207,14 @@ public class MySpaceActivity extends SherlockActivity {
 			myPhotosAdapter.notifyDataSetChanged();
 			
 			// 获取序列化数据传到服务器
-			UploadPicturesUtil uploadPicturesUtil = new UploadPicturesUtil();
+			SerializePicturesUtil uploadPicturesUtil = new SerializePicturesUtil();
 			final byte[] bitmapBuffer = uploadPicturesUtil.getByteArrayByFile(file);
 			webServiceUtil = new WebServiceUtil(updateMyPhotosHandler); 
 			new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
-					webServiceUtil.uploadUserShowimages(bitmapBuffer);
+					webServiceUtil.uploadUserShowImages(bitmapBuffer);
 				}
 			}).start();
 			
@@ -317,6 +323,16 @@ public class MySpaceActivity extends SherlockActivity {
 System.out.println(photosUrlBuffer.toString());
 				UpdatePhotosUtil updatePhotosUtil = new UpdatePhotosUtil(mySpaceActivity);
 				updatePhotosUtil.updatePhotos();
+				Toast.makeText(mySpaceActivity, "相册已更新", Toast.LENGTH_SHORT).show();
+				break;
+				// TODO 周日修改
+			case HandlerConditions.DELETE_MY_PHOTOS_BEGIN:
+				mySpaceActivity.progressDialog = ProgressDialog.show(mySpaceActivity, null, "删除照片中...", true);
+				break;
+			case HandlerConditions.DELETE_MY_PHOTOS_FINISH:
+				mySpaceActivity.progressDialog.dismiss();
+				break;
+				
 			}
 		}
 		

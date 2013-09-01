@@ -6,5 +6,11 @@
     <string name="home_activity"></string>
     
     <string name="photo_area_text">上传你的照片,让更多人邀请你!</string>
-
+    
+    
+    <string name="btn_select_from_album">从相册选择</string>
+    <string name="btn_start_camera">拍照</string>
+	
+    
+    
 </resources>
