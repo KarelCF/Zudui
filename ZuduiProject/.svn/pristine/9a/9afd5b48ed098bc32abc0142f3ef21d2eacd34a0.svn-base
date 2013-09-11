@@ -1,0 +1,352 @@
+package so.zudui.home;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import so.zudui.activity.details.ActivityDetails;
+import so.zudui.baidumap.MyLocationListener;
+import so.zudui.condition.DetailConditions;
+import so.zudui.database.UpdateMyLocationUtil;
+import so.zudui.entity.Activities;
+import so.zudui.entity.Activities.Activity;
+import so.zudui.entity.User;
+import so.zudui.friends.MyFriendsActivity;
+import so.zudui.launch.activity.R;
+import so.zudui.space.MySpaceActivity;
+import so.zudui.util.ActivityInfoUtil;
+import so.zudui.util.EntityTableUtil;
+import so.zudui.webservice.WebServiceUtil;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.LocationData;
+import com.baidu.platform.comapi.basestruct.GeoPoint;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
+public class HomePage extends SherlockActivity implements OnNavigationListener {
+	
+	private TextView nonActivityInfoTextView = null;
+	private ImageButton profileSpaceBtn = null;
+	private ImageButton createActivityBtn = null;
+	private ImageButton friendsBtn = null;
+	private PullToRefreshListView activitiesListView = null;
+	private ProgressDialog progressDialog = null;
+	
+	private List<Activity> homePageActivitiesList = new ArrayList<Activity>();
+	
+	private HomePageActivitiesAdatper homePageActivitiesAdatper = null;
+	
+	private User user = EntityTableUtil.getMainUser();
+	private String[] sortingMethods;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_home_page);
+		this.setTitle("              ");
+		initListNavigation();
+		initHomeActivityView();
+		progressDialog = ProgressDialog.show(HomePage.this, null, "正在更新您的位置...", true);
+		initLocationService();
+		new UpdateLocationTask().execute();
+		
+	}
+	
+	private void initListNavigation() {
+		// ActionBar上的下拉选项与左右按钮
+		Context context = getSupportActionBar().getThemedContext();
+        ArrayAdapter<CharSequence> listNavigationAdapter = ArrayAdapter.createFromResource(context, R.array.sorting_method, R.layout.sherlock_spinner_item);
+        listNavigationAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+        
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getSupportActionBar().setListNavigationCallbacks(listNavigationAdapter, this);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        
+        sortingMethods = getResources().getStringArray(R.array.sorting_method);
+        
+	}
+	
+	
+	private void initHomeActivityView() {
+		activitiesListView = (PullToRefreshListView) findViewById(R.id.home_activity_listview_activities);
+		// 无内容时所示内容
+		activitiesListView.setEmptyView(findViewById(R.id.homepage_textview_no_activities));
+		activitiesListView.setOnItemClickListener(new OnItemClickListener() {
+			
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				EntityTableUtil.setHomeActivitiesList(homePageActivitiesList);
+				Intent intent = new Intent(HomePage.this, ActivityDetails.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("condition", DetailConditions.HOME_PAGE);
+				bundle.putInt("position", position - 1);
+				intent.putExtra("bundle", bundle);
+				HomePage.this.startActivity(intent);
+				
+			}
+		});
+		// 下拉刷新列表
+		activitiesListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				String label = "上次刷新: " + DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
+						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+				// Update the LastUpdatedLabel
+				refreshView.getLoadingLayoutProxy().setPullLabel("下拉刷新活动");
+				refreshView.getLoadingLayoutProxy().setReleaseLabel("放开以刷新活动");
+				refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在更新您的位置..");
+				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
+				// 这里更新数据.
+				new UpdateLocationTask().execute();
+			}
+		});
+		// 无内容时点击刷新
+		nonActivityInfoTextView = (TextView) findViewById(R.id.homepage_textview_no_activities);
+		nonActivityInfoTextView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				activitiesListView.setRefreshing(true);
+				new UpdateLocationTask().execute();
+			}
+		});
+		
+		profileSpaceBtn = (ImageButton) findViewById(R.id.home_activity_button_profile_space);
+		createActivityBtn = (ImageButton) findViewById(R.id.home_activity_button_create_activity);
+		friendsBtn = (ImageButton) findViewById(R.id.home_activity_button_friends);
+		OnClickListener homeBtnListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.home_activity_button_profile_space:
+					Intent spaceIntent = new Intent(HomePage.this, MySpaceActivity.class);
+					startActivity(spaceIntent);
+					break;
+				case R.id.home_activity_button_create_activity:
+					Toast.makeText(HomePage.this, "发布活动什么的...", Toast.LENGTH_SHORT).show();
+					// TODO
+					break;
+				case R.id.home_activity_button_friends:
+					Intent friendsIntent = new Intent(HomePage.this, MyFriendsActivity.class);
+					startActivity(friendsIntent);
+					break;
+					
+				}
+			}
+		}; 
+		profileSpaceBtn.setOnClickListener(homeBtnListener);
+		createActivityBtn.setOnClickListener(homeBtnListener);
+		friendsBtn.setOnClickListener(homeBtnListener);
+		
+	}
+	
+	// 定位相关
+	public static GeoPoint myGeoPoint = null;
+	public MyLocationListener myLocationListener = new MyLocationListener();
+	private static LocationData mylocationData = new LocationData();
+	private LocationClient locationClient = null;
+	
+	
+	private class UpdateLocationTask extends AsyncTask<Void, Void, Integer> {
+		public UpdateLocationTask() {
+			
+		}
+		
+		@Override
+		protected Integer doInBackground(Void... params) {
+			// 所有耗时操作
+			queryGameCategory();
+			locationClient.start();
+			do {
+				mylocationData = myLocationListener.getMyLocationData();
+			} while (0 == mylocationData.latitude && 0 == mylocationData.longitude );
+			// 更新并上传我的坐标
+			User user = EntityTableUtil.getMainUser();
+			user.setLatitude(mylocationData.latitude);
+			user.setLongitude(mylocationData.longitude);
+			WebServiceUtil webServiceUtil = new WebServiceUtil();
+			int result = webServiceUtil.updateUserLocation(mylocationData.longitude, mylocationData.latitude);
+			// 将我的位置插入表中
+			UpdateMyLocationUtil updateMyLocationUtil = new UpdateMyLocationUtil(HomePage.this);
+			updateMyLocationUtil.updateMyLocation();
+			return result;
+		}
+		
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			locationClient.stop();
+			if (result == WebServiceUtil.SUCCESS) {
+				QueryActivitiesTask queryActivityTask = new QueryActivitiesTask();
+				queryActivityTask.execute();
+			} else {
+				Toast.makeText(HomePage.this, "位置更新失败", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+	
+	private class QueryActivitiesTask extends AsyncTask<Void, Void, Integer> {
+
+		@Override
+		protected Integer doInBackground(Void... params) {
+			// 所有耗时操作
+			WebServiceUtil webServiceUtil = new WebServiceUtil();
+			int result = webServiceUtil.queryActivityOrderByRest(mylocationData.longitude, mylocationData.latitude, "");
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == WebServiceUtil.SUCCESS) {
+				// 刷新清列表
+				homePageActivitiesList.clear();
+				Activities homeActivities = EntityTableUtil.getHomePageActivities();
+				List<Activity> homeActivitiesTemp = homeActivities.getActivities();
+				ActivityInfoUtil.getActivityIcon(homeActivitiesTemp);
+				homePageActivitiesList.addAll(homeActivitiesTemp);
+				homePageActivitiesList.remove(0);
+				showHomePageActivities();
+			} else if (result == WebServiceUtil.EMPTY){
+				Toast.makeText(HomePage.this, "目前没有活动", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(HomePage.this, "查找活动失败", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+	
+	private void queryGameCategory() {
+		WebServiceUtil webServiceUtil = new WebServiceUtil();
+		webServiceUtil.queryGame();
+	}
+	
+	private void initLocationService() {
+		if (locationClient == null) {
+			locationClient = new LocationClient(this);
+	        locationClient.registerLocationListener(myLocationListener);
+	        LocationClientOption option = new LocationClientOption();
+	        option.setOpenGps(true);
+	        option.setCoorType("bd09ll");
+	        option.setScanSpan(5000);
+	        locationClient.setLocOption(option);
+		}
+	}
+	
+	private static int index = 0;
+	private List<String> allParticipantsUid = new ArrayList<String>();
+	private Activity homePageActivity = null;
+	
+	private void showHomePageActivities() {
+		if (homePageActivitiesList.size() == 0) {
+			activitiesListView.onRefreshComplete();
+			Toast.makeText(HomePage.this, "目前没有活动, 点击下方添加一个活动吧", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		new GetParticipantsAvatarTask().execute(index);
+	}
+	
+	private class GetParticipantsAvatarTask extends AsyncTask<Integer, Void, Integer> {
+
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			// 所有耗时操作
+			getParticipantsUid(params[0]);
+			WebServiceUtil webServiceUtil = new WebServiceUtil();
+			int result = 0;
+			for (int i = 0; i < allParticipantsUid.size(); i++) {
+				result = webServiceUtil.queryUser(allParticipantsUid.get(i), homePageActivity);
+				if (result == WebServiceUtil.FAILED)
+					break;
+			}
+			return result;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == WebServiceUtil.SUCCESS) {
+				index++;
+				if (index < homePageActivitiesList.size()) {
+					new GetParticipantsAvatarTask().execute(index);
+				} else {
+					index = 0;
+					homePageActivitiesAdatper = new HomePageActivitiesAdatper(HomePage.this, homePageActivitiesList);
+					activitiesListView.setAdapter(homePageActivitiesAdatper);
+					// TODO 在此收回下拉条
+					activitiesListView.onRefreshComplete();
+					Toast.makeText(HomePage.this, "现在有这些活动哦！", Toast.LENGTH_SHORT).show();
+					// 放置位置靠后防止误操作
+					if(progressDialog != null) {
+						progressDialog.dismiss();
+						progressDialog = null;
+					}
+				}
+			} else {
+				Toast.makeText(HomePage.this, "获取参与者头像失败", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+	
+	private void getParticipantsUid(int index) {
+		homePageActivity = homePageActivitiesList.get(index);
+		String sponsorUid = homePageActivity.getCreateUserUid();
+		String[] participantsUid = homePageActivity.getJoinUserId().split(",");
+		allParticipantsUid.clear();
+		allParticipantsUid.add(sponsorUid);
+		for (String temp : participantsUid)
+			allParticipantsUid.add(temp);
+	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_home_activity, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO 选择不同排序方式
+		return false;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			Toast.makeText(this, "跳到设置界面", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.message_box:
+			Toast.makeText(this, "跳到消息盒子", Toast.LENGTH_SHORT).show();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	
+
+}

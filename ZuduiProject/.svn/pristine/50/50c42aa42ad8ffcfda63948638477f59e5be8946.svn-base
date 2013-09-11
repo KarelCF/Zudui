@@ -1,0 +1,68 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <dimen name="img_my_avatar">85dp</dimen>
+    <dimen name="img_friend_avatar">85dp</dimen>
+    <dimen name="img_gender">20dp</dimen>
+    
+    <dimen name="img_activity_detail">95dp</dimen>
+    
+    
+    <dimen name="img_participant">35dp</dimen>
+    <dimen name="img_detail_participant">65dp</dimen>
+    
+    <dimen name="img_photo">80dp</dimen>
+    <dimen name="layout_photo_area">120dp</dimen>
+    
+    <dimen name="gridview_photo_margin_top">20dp</dimen>
+    <dimen name="gridview_photo_margin_right">10dp</dimen>
+    <dimen name="gridview_photo_margin_bottom">20dp</dimen>
+    <dimen name="gridview_photo_margin_left">10dp</dimen>
+    
+    <dimen name="gridview_activity_margin_top">5dp</dimen>
+    <dimen name="gridview_activity_margin_right">10dp</dimen>
+    <dimen name="gridview_activity_margin_bottom">20dp</dimen>
+    <dimen name="gridview_activity_margin_left">10dp</dimen>
+    
+    <dimen name="gridview_participants_margin_top">20dp</dimen>
+    <dimen name="gridview_participants_margin_right">15dp</dimen>
+    <dimen name="gridview_participants_margin_bottom">15dp</dimen>
+    <dimen name="gridview_participants_margin_left">0dp</dimen>
+    
+    <dimen name="gridview_activity_details_margin_top">15dp</dimen>
+    <dimen name="gridview_activity_details_margin_right">15dp</dimen>
+    <dimen name="gridview_activity_details_margin_bottom">20dp</dimen>
+    <dimen name="gridview_activity_details_margin_left">20dp</dimen>
+    
+    <dimen name="btn_bottom_width">112dp</dimen>
+    <dimen name="btn_bottom_height">57dp</dimen>
+    
+    <dimen name="text_friend_distantce_margin_left">6dp</dimen>
+    <dimen name="text_friend_distantce_margin_top">80dp</dimen>
+    <dimen name="text_friend_name_margin_left">20dp</dimen>
+    <dimen name="text_friend_name_margin_top">120dp</dimen>
+    <dimen name="text_friend_name_margin_bottom">20dp</dimen>
+    <dimen name="text_friend_divider_margin_top">28dp</dimen>
+    
+    <dimen name="textsize_friend_distantce">15sp</dimen>
+    <dimen name="textsize_friend_name">15sp</dimen>
+    <dimen name="textsize_friend_divider">17sp</dimen>
+    <dimen name="textsize_friend_faith">34sp</dimen>
+    
+    <dimen name="progressbar_loading_activities">130dp</dimen>
+    <dimen name="progressbar_loading_participants">60dp</dimen>
+    
+    <dimen name="textsize_space_activity_area">14sp</dimen>
+    
+    <dimen name="frame_layout_friends_avatar_margin_left">23dp</dimen>
+    <dimen name="frame_layout_friends_avatar_margin_right">23dp</dimen>
+    
+    <dimen name="image_small_icon">20dp</dimen>
+    <dimen name="image_small_icon_margin_top">10dp</dimen>
+    
+    
+    
+</resources>

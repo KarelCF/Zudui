@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<shape xmlns:android="http://schemas.android.com/apk/res/android"> 
+    
+    <!-- 90度为从下往上, 0度为从左往右 -->
+    <gradient  
+		android:endColor="#00000000"
+		android:centerColor="#11000000"
+		android:startColor="#33000000"
+		android:angle="90" 
+     	/> 
+   <!--  <corners android:radius="0dp" />  -->
+</shape>

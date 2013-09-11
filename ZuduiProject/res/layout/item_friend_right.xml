@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/friends_activity_relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    
+    <RelativeLayout
+        android:id="@+id/friends_faith_area"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_centerVertical="true"
+	    android:layout_marginLeft="@dimen/frame_layout_friends_avatar_margin_left"
+	    >
+        
+	        <TextView 
+			    android:id="@+id/textview_faith"
+			    android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_centerVertical="true"
+		    	android:layout_marginRight="5dp"
+		    	android:textColor="@color/text_friend_light"
+		    	android:textSize="15sp"
+		    	android:text="诚信度:"
+			    />
+			
+			<TextView 
+			    android:id="@id/friends_activity_textview_faith"
+			    android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_toRightOf="@id/textview_faith"
+		    	android:textColor="@color/text_friend_light"
+		    	android:textSize="@dimen/textsize_friend_faith"
+			    />
+
+	</RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/relative_layout_friend_info"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        >
+    
+	    <FrameLayout 
+        	android:id="@+id/frame_layout_friends_avatar"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="30dp"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="@dimen/frame_layout_friends_avatar_margin_right"
+	    	>
+           
+	        <ImageView 
+		        android:id="@id/friends_activity_imageview_avatar"
+		        android:layout_width="@dimen/img_friend_avatar"
+		        android:layout_height="@dimen/img_friend_avatar"
+		        android:background="@drawable/image_border"
+		        android:padding="3dp"
+		 		/>
+	        
+	        <RelativeLayout 
+			    android:layout_width="@dimen/img_friend_avatar"
+			    android:layout_height="@dimen/img_friend_avatar"
+		    	>
+	        
+		        <ImageView 
+			        android:id="@id/friends_activity_imageview_gender"
+			        android:layout_width="@dimen/img_gender"
+			        android:layout_height="@dimen/img_gender"
+			        android:layout_alignParentRight="true"
+			        android:layout_alignParentBottom="true"
+			        android:layout_marginBottom="3dp"
+			        android:layout_marginRight="1dp"
+			 		/>
+	        
+	        </RelativeLayout>
+            
+		</FrameLayout>
+        
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_alignParentRight="true"
+		    android:layout_marginRight="@dimen/frame_layout_friends_avatar_margin_right"
+	        android:layout_marginTop="@dimen/text_friend_name_margin_top"
+	        android:orientation="horizontal"
+	        >
+	        
+			<TextView 
+			    android:id="@id/friends_activity_textview_name"
+			    android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginBottom="@dimen/text_friend_name_margin_bottom"
+		    	android:textColor="@color/text_friend_light"
+		    	android:textSize="@dimen/textsize_friend_name"
+			    />
+			
+			<TextView
+			    android:id="@id/vertical_divider"
+			    android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginBottom="@dimen/text_friend_name_margin_bottom"
+		    	android:textColor="@color/text_friend_divider"
+		    	android:textSize="@dimen/textsize_friend_divider"
+		    	android:text=" | "
+			    />
+			
+			<TextView 
+			    android:id="@id/friends_activity_textview_distance"
+			    android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginBottom="@dimen/text_friend_name_margin_bottom"
+		    	android:textColor="@color/text_friend_light"
+		    	android:textSize="@dimen/textsize_friend_distantce"
+			    />
+
+		</LinearLayout>
+		
+	</RelativeLayout>
+	
+
+		
+</RelativeLayout>

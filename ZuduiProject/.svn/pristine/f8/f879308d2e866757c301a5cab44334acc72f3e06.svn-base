@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <ListView
+        android:id="@+id/friends_activity_listview_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/my_friends_activity_btn_area"
+        />
+
+    <LinearLayout
+        android:id="@id/my_friends_activity_btn_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" 
+        android:background="@drawable/bg_btn_solid"
+        >
+
+        <ImageButton
+            android:id="@+id/friends_activity_btn_add_friend"
+            android:layout_width="@dimen/btn_bottom_width"
+            android:layout_height="@dimen/btn_bottom_height"
+            android:background="@drawable/pic_btn_add_friend"
+            />
+        
+    </LinearLayout>
+    
+
+        
+</RelativeLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="so.zudui.launch.activity"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
+    
+    <!--使用网络功能所需权限  -->  
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+	
+	<!-- SDK离线地图和cache功能,照相存入SD卡需要读写外部存储器 -->  
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+	 
+	<!-- 获取设置信息和详情页直接拨打电话需要以下权限  -->  
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>  
+	<uses-permission android:name="android.permission.CALL_PHONE"/>
+	
+	<!-- 使用定位功能所需权限,demo已集成百度定位SDK,不使用定位功能可去掉以下6项 -->  
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  
+	<uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"/>  
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>  
+	<uses-permission android:name="android.permission.ACCESS_GPS"/>     
+	<permission android:name="android.permission.BAIDU_LOCATION_SERVICE"/>  
+	
+	<!-- 添加屏幕支持 -->
+	<supports-screens 
+		android:largeScreens="true"  
+		android:normalScreens="true"  
+		android:smallScreens="true"  
+		android:resizeable="true"  
+		android:anyDensity="true"/> 
+	
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:name="so.zudui.application.ZuduiApplication"
+        android:theme="@style/AppTheme" 
+        >
+        <activity
+            android:name="so.zudui.launch.WelcomeActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="so.zudui.launch.LaunchActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/app_name" 
+            >
+        </activity>
+        
+        <activity
+            android:logo="@drawable/pic_setting"
+            android:name="so.zudui.home.HomePage"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        </activity>
+        
+        <activity
+            android:logo="@drawable/pic_back"
+            android:name="so.zudui.space.MySpaceActivity"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        </activity>
+        
+        <activity
+            android:logo="@drawable/pic_back"
+            android:name="so.zudui.space.MyImagePagerActivity"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        </activity>
+        
+        <activity
+            android:logo="@drawable/pic_back"
+            android:name="so.zudui.friends.MyFriendsActivity"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        </activity>
+        
+        <activity
+            android:logo="@drawable/pic_back"
+            android:name="so.zudui.activity.details.ActivityDetails"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        </activity>
+        
+        <activity
+            android:logo="@drawable/pic_back"
+            android:name="so.zudui.space.FriendSpaceActivity"
+            android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+            >
+        </activity>
+        
+        <provider 
+            android:name="so.zudui.database.UserProvider"
+            android:authorities="so.zudui.userprovider"
+            />
+        
+        <provider 
+            android:name="so.zudui.database.ActivityProvider"
+            android:authorities="so.zudui.activityprovider"
+            />
+        
+        <!-- 需要声明百度定位服务 -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        
+    </application>
+
+</manifest>

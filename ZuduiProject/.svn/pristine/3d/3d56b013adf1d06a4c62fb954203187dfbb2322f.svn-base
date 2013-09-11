@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!--
+    android:scaleType是控制图片如何resized/moved来匹对ImageView的size
+    CENTER_INSIDE / centerInside  将图片的内容完整居中显示，通过按比例缩小或原来的size使得图片长/宽等于或小于View的长/宽
+    centerCrop可以比较完美的全屏显示
+    -->
+    <ImageView 
+        android:scaleType="centerCrop"
+        android:id="@+id/launchImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/pic_launch"
+ 		/>
+	
+    <RelativeLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+    	>
+    
+	    <ImageButton
+	        android:id="@+id/launchactivity_button_sign_in"
+	        android:layout_width="match_parent"
+	        android:layout_height="40dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginBottom="60dp"
+	        android:background="@drawable/pic_launch_btn" 
+	        />
+
+	</RelativeLayout>
+	
+</RelativeLayout>

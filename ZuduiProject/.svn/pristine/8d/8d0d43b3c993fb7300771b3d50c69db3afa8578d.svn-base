@@ -1,0 +1,106 @@
+package so.zudui.util;
+
+import java.util.List;
+
+import so.zudui.entity.Activities;
+import so.zudui.entity.Friends;
+import so.zudui.entity.Friends.Friend;
+import so.zudui.entity.Games;
+import so.zudui.entity.Shop;
+import so.zudui.entity.User;
+import so.zudui.entity.Activities.Activity;
+
+public class EntityTableUtil {
+	
+	private static Activities myActivities;
+	private static List<Activity> myActivitiesList;
+	private static Activities homePageActivities;
+	private static List<Activity> homeActivitiesList;
+	
+	private static Games games;
+	private static Shop shop;
+	private static User mainUser;
+	private static User participantUser;
+	
+	private static Friends friends;
+	private static List<Friend> friendsList;
+	private static Activities friendActivities;
+	private static List<Activity> friendActivitiesList;
+	
+	public static Activities getMyActivities() {
+		return myActivities;
+	}
+	public static void setMyActivities(Activities activities) {
+		EntityTableUtil.myActivities = activities;
+	}
+	public static Activities getHomePageActivities() {
+		return homePageActivities;
+	}
+	
+	public static List<Activity> getMyActivitiesList() {
+		return myActivitiesList;
+	}
+	public static void setMyActivitiesList(List<Activity> myActivitiesList) {
+		EntityTableUtil.myActivitiesList = myActivitiesList;
+	}
+	
+	public static void setHomePageActivities(Activities homePageActivities) {
+		EntityTableUtil.homePageActivities = homePageActivities;
+	}
+	public static List<Activity> getHomeActivitiesList() {
+		return homeActivitiesList;
+	}
+	public static void setHomeActivitiesList(List<Activity> homeActivitiesList) {
+		EntityTableUtil.homeActivitiesList = homeActivitiesList;
+	}
+	public static Games getGames() {
+		return games;
+	}
+	public static void setGames(Games games) {
+		EntityTableUtil.games = games;
+	}
+	public static Shop getShop() {
+		return shop;
+	}
+	public static void setShop(Shop shop) {
+		EntityTableUtil.shop = shop;
+	}
+	public static User getMainUser() {
+		return mainUser;
+	}
+	public static void setMainUser(User user) {
+		EntityTableUtil.mainUser = user;
+	}
+	public static User getParticipantUser() {
+		return participantUser;
+	}
+	public static void setParticipantUser(User participantUser) {
+		EntityTableUtil.participantUser = participantUser;
+	}
+	public static Friends getFriends() {
+		return friends;
+	}
+	public static void setFriends(Friends friends) {
+		EntityTableUtil.friends = friends;
+	}
+	
+	public static List<Friend> getFriendsList() {
+		return friendsList;
+	}
+	public static void setFriendsList(List<Friend> friendsList) {
+		EntityTableUtil.friendsList = friendsList;
+	}
+	public static Activities getFriendActivities() {
+		return friendActivities;
+	}
+	public static void setFriendActivities(Activities friendActivities) {
+		EntityTableUtil.friendActivities = friendActivities;
+	}
+	public static List<Activity> getFriendActivitiesList() {
+		return friendActivitiesList;
+	}
+	public static void setFriendActivitiesList(List<Activity> friendActivitiesList) {
+		EntityTableUtil.friendActivitiesList = friendActivitiesList;
+	}
+	
+}

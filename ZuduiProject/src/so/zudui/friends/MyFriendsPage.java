@@ -1,0 +1,134 @@
+package so.zudui.friends;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+import so.zudui.entity.Friends;
+import so.zudui.entity.User;
+import so.zudui.entity.Friends.Friend;
+import so.zudui.launch.activity.R;
+import so.zudui.space.FriendSpaceActivity;
+import so.zudui.util.EntityTableUtil;
+import so.zudui.webservice.WebServiceUtil;
+import so.zudui.weibo.api.FriendshipsAPI;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.Toast;
+
+
+public class MyFriendsPage extends SherlockActivity {
+	
+	private ListView myFriendsListView = null;
+	private ImageButton addFriendBtn = null;
+	
+	private MyFriendsAdapter myFriendsAdapter = null;
+	private List<Friend> friendsList = new ArrayList<Friend>();
+	
+	private User user = EntityTableUtil.getMainUser();
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		super.setContentView(R.layout.layout_friends_page);
+		setTitle(R.string.title_friends_activity);
+		
+		initMyFriendsActivityView();
+		new QueryMyFriendsTask().execute();
+		
+	}
+	
+	private void initMyFriendsActivityView() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		addFriendBtn = (ImageButton) findViewById(R.id.friends_activity_btn_add_friend);
+		myFriendsListView = (ListView) findViewById(R.id.friends_activity_listview_friends);
+		myFriendsListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				EntityTableUtil.setFriendsList(friendsList);
+				Intent intent = new Intent(MyFriendsPage.this, FriendSpaceActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("position", position);
+				intent.putExtra("bundle", bundle);
+				MyFriendsPage.this.startActivity(intent);
+				
+			}
+		});
+	}
+	
+	private class QueryMyFriendsTask extends AsyncTask<Void, Void, Integer> {
+		
+		ProgressDialog progressDialog = null;
+		
+		public QueryMyFriendsTask() {
+			progressDialog = ProgressDialog.show(MyFriendsPage.this, null, "读取好友列表中...", true);
+		}
+		
+		@Override
+		protected Integer doInBackground(Void... params) {
+			int result = 0;
+			WebServiceUtil webServiceUtil = new WebServiceUtil();
+			String friendIdsList = user.getFriendIds();
+			String formatFriendIds = getFormatFriendIds(friendIdsList);
+			result = webServiceUtil.queryMyFriends(formatFriendIds);
+			if (result == WebServiceUtil.FAILED)
+				return result;
+			friendsList = EntityTableUtil.getFriends().getFriendsList();
+			myFriendsAdapter = new MyFriendsAdapter(MyFriendsPage.this, friendsList);
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (progressDialog != null)
+				progressDialog.dismiss();
+			if (result == WebServiceUtil.SUCCESS) {
+				myFriendsListView.setAdapter(myFriendsAdapter);
+				Toast.makeText(MyFriendsPage.this, "成功获取好友列表", Toast.LENGTH_SHORT).show();
+			} else if (result == WebServiceUtil.EMPTY) {
+				Toast.makeText(MyFriendsPage.this, "您还没有添加任何好友, 点击下方添加好友", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(MyFriendsPage.this, "获取好友列表失败", Toast.LENGTH_SHORT).show();
+			}
+			super.onPostExecute(result);
+		}
+		
+		private String getFormatFriendIds(String friendIdsList) {
+			String[] friendIdsArray = friendIdsList.split(",");
+			StringBuffer formatFriendIdsBuffer = new StringBuffer();
+			for (int i = 1; i < friendIdsArray.length; i++) {
+				if (i != friendIdsArray.length - 1) {
+					formatFriendIdsBuffer.append("'" + friendIdsArray[i] + "',");
+				} else {
+					formatFriendIdsBuffer.append("'" + friendIdsArray[i] + "'");
+				}
+			}
+			return formatFriendIdsBuffer.toString();
+		}
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+}
