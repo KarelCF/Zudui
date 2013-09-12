@@ -8,7 +8,7 @@ import android.content.SharedPreferences.Editor;
 
 public class AccessTokenKeeper {
 	private static final String PREFERENCES_NAME = "com_weibo_sdk_android";
-
+	
 	public static void keepAccessToken(Context context, Oauth2AccessToken token) {
 		SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
 		Editor editor = pref.edit();

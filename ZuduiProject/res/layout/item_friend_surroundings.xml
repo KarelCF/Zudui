@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
+    >
+    
+    <FrameLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginBottom="10dp"
+	    android:layout_marginLeft="10dp"
+    	>
+          
+        <ImageView 
+	        android:id="@id/surroundings_imageview_avatar"
+	        android:layout_width="@dimen/img_surrounding_avatar"
+	        android:layout_height="@dimen/img_surrounding_avatar"
+	        android:background="@drawable/image_border_gray"
+	        android:padding="1dp"
+	 		/>
+        
+        <RelativeLayout 
+		    android:layout_width="@dimen/img_surrounding_avatar"
+		    android:layout_height="@dimen/img_surrounding_avatar"
+	    	>
+        
+	        <ImageView 
+		        android:id="@id/surroundings_imageview_gender"
+		        android:layout_width="@dimen/img_gender"
+		        android:layout_height="@dimen/img_gender"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentBottom="true"
+		        android:layout_marginBottom="3dp"
+		        android:layout_marginRight="1dp"
+		 		/>
+        
+        </RelativeLayout>
+          
+	</FrameLayout>
+    
+    <RelativeLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginBottom="10dp"
+	    android:layout_marginLeft="10dp"
+	    >
+        
+        <TextView 
+            android:id="@id/surroundings_textview_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginTop="10dp"
+	        android:textColor="@color/surrounding_name"
+	        android:textSize="15sp"
+            />
+        
+        <TextView 
+            android:id="@id/surroundings_textview_distance"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginBottom="5dp"
+	        android:textColor="@color/surrounding_distance"
+	        android:textSize="13sp"
+            />
+        
+	</RelativeLayout>
+	
+    <RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginBottom="10dp"
+	    >
+        
+	    <CheckBox
+	        android:id="@id/surroundings_checkbox_add"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="20dp"
+	        android:checked="false"
+	        style="@style/AddFriendCheckBox"
+	        />
+    
+	</RelativeLayout>
+	
+</LinearLayout>

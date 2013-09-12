@@ -20,6 +20,7 @@ public class Bilateral {
 		private String name;
 		private String gender;
 		private String avatar_hd;
+		private boolean isChecked;
 		
 		public long getId() {
 			return id;
@@ -33,6 +34,12 @@ public class Bilateral {
 		public String getBilateralImageUrl() {
 			return avatar_hd;
 		}			
+		public boolean isChecked() {
+			return isChecked;
+		}
+		public void setChecked(boolean isChecked) {
+			this.isChecked = isChecked;
+		}
 	}
 	
 }

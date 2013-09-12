@@ -79,8 +79,16 @@ public class User {
 	public String getFriendIds() {
 		return friend_ids;
 	}
-	public void setFriendIds(String friend_ids) {
-		this.friend_ids = friend_ids;
+	public void setFriendIds(String friendIds) {
+		this.friend_ids = friendIds;
+	}
+	public void addFriendIds(String friendIds) {
+		if(this.friend_ids == null) {
+			this.friend_ids = ",";
+		}
+		StringBuffer buffer = new StringBuffer(this.friend_ids);
+		buffer.append(friendIds);
+		this.friend_ids = buffer.toString();
 	}
 	public String getBgimage() {
 		return bgimage;

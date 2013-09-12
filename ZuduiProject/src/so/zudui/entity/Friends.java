@@ -11,6 +11,7 @@ public class Friends {
 	}
 	
 	public static class Friend {
+		
 		private int id;
 		private String uid;
 		private String uname;
@@ -24,6 +25,9 @@ public class Friends {
 		private String friend_ids;
 		private String bgimage;
 		private String showimages;
+		
+		private boolean isChecked; 
+		
 		
 		public int getId() {
 			return id;
@@ -102,6 +106,12 @@ public class Friends {
 		}
 		public void setShowimages(String showimages) {
 			this.showimages = showimages;
+		}
+		public boolean isChecked() {
+			return isChecked;
+		}
+		public void setChecked(boolean isChecked) {
+			this.isChecked = isChecked;
 		}
 	
 	}

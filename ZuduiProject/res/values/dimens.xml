@@ -5,6 +5,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     
     <dimen name="img_my_avatar">85dp</dimen>
+    <dimen name="img_surrounding_avatar">80dp</dimen>
+    <dimen name="img_weibos_avatar">80dp</dimen>
     <dimen name="img_friend_avatar">85dp</dimen>
     <dimen name="img_gender">20dp</dimen>
     
@@ -52,7 +54,7 @@
     <dimen name="textsize_friend_divider">17sp</dimen>
     <dimen name="textsize_friend_faith">34sp</dimen>
     
-    <dimen name="progressbar_loading_activities">130dp</dimen>
+    <dimen name="progressbar_loading_activities">90dp</dimen>
     <dimen name="progressbar_loading_friends_activities">60dp</dimen>
     <dimen name="progressbar_loading_participants">60dp</dimen>
     

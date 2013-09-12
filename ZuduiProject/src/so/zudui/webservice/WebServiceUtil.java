@@ -73,6 +73,7 @@ public class WebServiceUtil {
             if (sse.getResponse() != null) {
                 // 从返回数据串中提取Json数据
             	String userInfoInJson = catchJson(sse.bodyIn.toString());
+//System.out.println(userInfoInJson);
 	    		EntityTableUtil.setMainUser( (User) GsonUtil.parseJsonToObject(userInfoInJson, User.class) );
 	    		return SUCCESS;
             }      
@@ -415,13 +416,13 @@ public class WebServiceUtil {
 			// 判断有无回应，若有，调用方法解析返回的xml
 			if (sse.getResponse() != null) {
 			String result = catchJson(sse.bodyIn.toString());
-//System.out.println("好友:" + result);
 				if (result.equals("[]"))
 					return EMPTY;
 				String friendsInfo = "{\"friends\":" + result + "}";
 				Friends myfriends = (Friends) GsonUtil.parseJsonToObject(friendsInfo, Friends.class);
-				// 存入Activities实体类
-				EntityTableUtil.setFriends(myfriends);
+				// 存入Friends实体类
+				EntityTableUtil.setCheckedFriends(myfriends);
+				EntityTableUtil.setCheckedFriendsList(EntityTableUtil.getCheckedFriends().getFriendsList());
 				return SUCCESS;
 			} 
 		} catch (IOException e) {
@@ -432,7 +433,98 @@ public class WebServiceUtil {
 		return FAILED;
 	}
 	
+	public int querySurrounding(double longitude, double latitude) {
+		String longitudeString = longitude + "";
+		String latitudeString = latitude + "";
+		// 获得SoapObject对象
+		SoapObject so = new SoapObject(WebServiceConstants.NAMESPACE, WebServiceConstants.METHOD_QUERY_SURROUNDING_PEOPLE);
+		so.addProperty("uid", sinaUid);
+		so.addProperty("longitude", longitudeString);
+		so.addProperty("latitude", latitudeString);
+		// TODO 分页处理,姑且先填0
+		so.addProperty("startTag", 0);
+		// 获得Enveloper对象
+		SoapSerializationEnvelope sse = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		sse.bodyOut = so;
+		sse.dotNet = false;
+		sse.setOutputSoapObject(so);
+		HttpTransportSE htse = new HttpTransportSE(WebServiceConstants.USER_SERIVCE_END_POINT);
+		try {
+			htse.call(WebServiceConstants.SOAP_ACTION_QUERY_SURROUNDING_PEOPLE, sse);
+			// 判断有无回应，若有，调用方法解析返回的xml
+			if (sse.getResponse() != null) {
+			String result = catchJson(sse.bodyIn.toString());
+				if (result.equals("[]"))
+					return EMPTY;
+				String surroundingInfo = "{\"friends\":" + result + "}";
+				Friends surroundings = (Friends) GsonUtil.parseJsonToObject(surroundingInfo, Friends.class);
+				// 存入Friends实体类
+				EntityTableUtil.setSurroundings(surroundings);
+				EntityTableUtil.clearSurroundingsList();
+				EntityTableUtil.setSurroundingsList(surroundings.getFriendsList());
+				return SUCCESS;
+			} 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
+		return FAILED;
+	}
 	
+	public int addFriend(String friendIds) {
+		// 获得SoapObject对象
+		SoapObject so = new SoapObject(WebServiceConstants.NAMESPACE, WebServiceConstants.METHOD_ADD_FRIEND);
+		so.addProperty("uid", sinaUid);
+		so.addProperty("friendid", friendIds);
+		// 获得Enveloper对象
+		SoapSerializationEnvelope sse = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		sse.bodyOut = so;
+		sse.dotNet = false;
+		sse.setOutputSoapObject(so);
+		HttpTransportSE htse = new HttpTransportSE(WebServiceConstants.USER_SERIVCE_END_POINT);
+		try {
+			htse.call(WebServiceConstants.SOAP_ACTION_ADD_FRIEND, sse);
+			// 判断有无回应，若有，调用方法解析返回的xml
+			if (sse.getResponse() != null) {
+			String result = catchJson(sse.bodyIn.toString());
+			if (result.equals("ok"))
+				return SUCCESS;
+			} 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
+		return FAILED;
+	}
+	
+	public int deleteFriend(String friendId) {
+		// 获得SoapObject对象
+		SoapObject so = new SoapObject(WebServiceConstants.NAMESPACE, WebServiceConstants.METHOD_DELETE_FRIEND);
+		so.addProperty("uid", sinaUid);
+		so.addProperty("fuid", friendId);
+		// 获得Enveloper对象
+		SoapSerializationEnvelope sse = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		sse.bodyOut = so;
+		sse.dotNet = false;
+		sse.setOutputSoapObject(so);
+		HttpTransportSE htse = new HttpTransportSE(WebServiceConstants.USER_SERIVCE_END_POINT);
+		try {
+			htse.call(WebServiceConstants.SOAP_ACTION_DELETE_FRIEND, sse);
+			// 判断有无回应，若有，调用方法解析返回的xml
+			if (sse.getResponse() != null) {
+				String result = catchJson(sse.bodyIn.toString());
+				if (result.equals("ok"))
+					return SUCCESS;
+			} 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
+		return FAILED;
+	}
 	
 	private String catchJson(String infofromserver) {
 		String jsonString = "";

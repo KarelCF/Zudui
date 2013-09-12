@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    
+    <color name="text_faith_light">#ffffffff</color>
+    <color name="text_space_distance_light">#ffffffff</color>
+	<color name="background_activities_light">#ffffffff</color>
+	
+	<color name="background_myspace_dark">#ff000000</color>
+	
+	<color name="text_photos_light">#ffffffff</color>
+	<color name="text_activities_light">#ff000000</color>
+	<color name="text_ongoing_activities">#ff66ccff</color>
+	<color name="text_upcoming_activities">#ff000000</color>
+	<color name="text_finished_activities">#ff000000</color>
+	<color name="background_photos_dark">#ff000000</color>
+	
+	<color name="text_friend_light">#ffffffff</color>
+	<color name="text_friend_divider">#ffffffff</color>
+	
+	<color name="text_home_activity_title">#ff000000</color>
+	<color name="text_home_activity_info">#ff606060</color>
+	<color name="text_home_activity_null">#ff000000</color>
+	
+	<color name="background_activity_details_dark">#ff000000</color>
+	<color name="text_activity_details_dark">#ff000000</color>
+	<color name="text_activity_details_light">#ffffffff</color>
+	
+	<color name="surrounding_name">#ff000000</color>
+	<color name="surrounding_distance">#dd707070</color>
+	
+
+	
+</resources>

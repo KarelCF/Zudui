@@ -9,6 +9,8 @@ import so.zudui.condition.HandlerConditions;
 import so.zudui.entity.Activities;
 import so.zudui.entity.Activities.Activity;
 import so.zudui.entity.Friends.Friend;
+import so.zudui.entity.User;
+import so.zudui.friends.SurroundingFriendFragment;
 import so.zudui.launch.activity.R;
 import so.zudui.space.Constants.Extra;
 import so.zudui.util.ActivityInfoUtil;
@@ -17,6 +19,7 @@ import so.zudui.util.EntityTableUtil;
 import so.zudui.util.ImageLoaderUtil;
 import so.zudui.util.ListAndArrayConversionUtil;
 import so.zudui.webservice.WebServiceUtil;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +35,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -39,6 +43,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class FriendSpaceActivity extends SherlockActivity {
 
 	private Friend friend = null;
+	private User user = EntityTableUtil.getMainUser();
 	
 	// 个人信息功能区
 	private ImageView friendAvatarImageView = null; 
@@ -48,15 +53,12 @@ public class FriendSpaceActivity extends SherlockActivity {
 	
 	// 相册功能区
 	private GridView photosGridView = null;
-//	private RelativeLayout photoAreaTextLayout = null;
-//	private RelativeLayout photoAreaGridLayout = null;
 	private FriendPhotosAdatper friendPhotosAdapter = null;
 	private String[] photoUrls;
 	
 	// 活动功能区
 	private ProgressBar loadingProgressBar = null;
 	private GridView activitiesGridView = null;
-//	private RelativeLayout activitiyAreaTextLayout = null;
 	private RelativeLayout activitiyAreaGridLayout = null;
 	private FriendActivitiesAdatper friendActivitiesAdatper = null;
 	
@@ -80,7 +82,15 @@ public class FriendSpaceActivity extends SherlockActivity {
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("bundle");
 		int position = bundle.getInt("position");
-		friend = EntityTableUtil.getFriendsList().get(position);
+		int condition = bundle.getInt("condition");
+		// 设置此condition用来判断从何处跳转而来,从而采用对应的用户缓存列表
+		if (condition == DetailConditions.ADD_FRIEND_PAGE) {
+			friend = EntityTableUtil.getSurroundingsList().get(position);
+		} else if (condition == DetailConditions.FRIEND_PAGE) {
+			friend = EntityTableUtil.getCheckedFriendsList().get(position);
+		} else {
+			friend = EntityTableUtil.getFriendsList().get(position);
+		}
 		new GetFriendPhotosTask().execute();
 	}
 	
@@ -143,6 +153,7 @@ public class FriendSpaceActivity extends SherlockActivity {
 					long id) {
 				EntityTableUtil.setMyActivitiesList(friendActivitiesList);
 				Intent intent = new Intent(FriendSpaceActivity.this, ActivityDetails.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				Bundle bundle = new Bundle();
 				bundle.putInt("condition", DetailConditions.MY_SPACE);
 				bundle.putInt("position", position);
@@ -166,7 +177,6 @@ public class FriendSpaceActivity extends SherlockActivity {
 		imageLoader = imageLoaderUtil.getInstance();
 		options = imageLoaderUtil.getOptions();
 		imageLoader.displayImage(friend.getUpicurl(), friendAvatarImageView, options);
-		photosGridView.setBackgroundResource(R.drawable.image_border);
 		setFriendGender();
 	}
 	
@@ -233,11 +243,8 @@ public class FriendSpaceActivity extends SherlockActivity {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			if (result == WebServiceUtil.EMPTY) {
-				Toast.makeText(FriendSpaceActivity.this, "TA还没有参加过活动哦", Toast.LENGTH_SHORT).show();
-			} else if (result == WebServiceUtil.FAILED){
+			if (result == WebServiceUtil.FAILED)
 				Toast.makeText(FriendSpaceActivity.this, "查找活动失败", Toast.LENGTH_SHORT).show();
-			} 
 			showMyActivities();
 		}
 		
@@ -251,14 +258,115 @@ public class FriendSpaceActivity extends SherlockActivity {
 	}
 	
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_friend_space_selector, menu);
+		MenuItem item = menu.getItem(0);
+		// TODO 判断是否为好友, 决定此按钮图标
+		judgeFriendVerification(item);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	private void judgeFriendVerification(MenuItem item) {
+		String friendIds = user.getFriendIds();
+		String otherId = friend.getUid();
+		if (friendIds.contains(otherId)) {
+			item.setIcon(R.drawable.pic_friend_delete_light);
+			friend.setChecked(true);
+		} else {
+			item.setIcon(R.drawable.pic_friend_add_light);
+			friend.setChecked(false);
+		}
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			finish();
+			break;
+		case R.id.friend_selector:
+			if (friend.isChecked()) {
+				deleteFriendId();
+				new DeleteFriendTask().execute();
+				item.setIcon(R.drawable.pic_friend_add_light);
+			} else {
+				setNewFriendIds();
+				new AddFriendTask().execute();
+				item.setIcon(R.drawable.pic_friend_delete_light);
+			}
 			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private String newFriendIds;
+	
+	private void setNewFriendIds() {
+		newFriendIds = friend.getUid() + ",";
+		user.addFriendIds(newFriendIds);
+	}
+	
+	private class AddFriendTask extends AsyncTask<Void, Void, Integer> {
+			
+		@Override
+		protected Integer doInBackground(Void... params) {
+			int result = 0;
+			WebServiceUtil webServiceUtil = new WebServiceUtil();
+			// TODO 更新至服务器
+			result = webServiceUtil.addFriend(newFriendIds);
+			return result;
+		}
+	
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == WebServiceUtil.SUCCESS) {
+				Toast.makeText(FriendSpaceActivity.this, "添加好友成功", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(FriendSpaceActivity.this, "添加好友失败", Toast.LENGTH_SHORT).show();
+			}
+			
+		}
+			
+	}
+	
+	private String deprecatedFriendId;
+	
+	private void deleteFriendId() {
+		deprecatedFriendId = friend.getUid();
+		List<String> friendIds = new ArrayList<String>();
+		friendIds.addAll( ListAndArrayConversionUtil.arrayToList ( user.getFriendIds().split(",") ) );
+		friendIds.remove(0);
+		friendIds.remove(deprecatedFriendId);
+		StringBuffer newFriendIds = new StringBuffer(",");
+		for (String friendId : friendIds)
+			newFriendIds.append(friendId + ",");
+System.out.println(newFriendIds.toString());
+		user.setFriendIds(newFriendIds.toString());
+	}
+	
+	private class DeleteFriendTask extends AsyncTask<Void, Void, Integer> {
+		
+		@Override
+		protected Integer doInBackground(Void... params) {
+			int result = 0;
+			WebServiceUtil webServiceUtil = new WebServiceUtil();
+			// TODO 更新至服务器
+			result = webServiceUtil.deleteFriend(deprecatedFriendId);
+			return result;
+		}
+	
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == WebServiceUtil.SUCCESS) {
+				Toast.makeText(FriendSpaceActivity.this, "删除好友成功", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(FriendSpaceActivity.this, "删除好友失败", Toast.LENGTH_SHORT).show();
+			}
+			
+		}
+			
+	}
+	
 }

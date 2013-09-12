@@ -29,6 +29,12 @@ public class EntityTableUtil {
 	private static Activities friendActivities;
 	private static List<Activity> friendActivitiesList = new ArrayList<Activity>();
 	
+	private static Friends surroundings;
+	private static List<Friend> surroundingsList = new ArrayList<Friend>();
+	
+	private static Friends checkedFriends;
+	private static List<Friend> checkedFriendsList = new ArrayList<Friend>();
+	
 	public static Activities getMyActivities() {
 		return myActivities;
 	}
@@ -96,10 +102,10 @@ public class EntityTableUtil {
 		return friendsList.size();
 	}
 	public static void clearFriendsList() {
-		friendsList.clear();
+		EntityTableUtil.friendsList.clear();
 	}
 	public static void addFriendsList(Friend friend) {
-		friendsList.add(friend);
+		EntityTableUtil.friendsList.add(friend);
 	}
 	public static List<Friend> getFriendsList() {
 		return friendsList;
@@ -119,5 +125,31 @@ public class EntityTableUtil {
 	public static void setFriendActivitiesList(List<Activity> friendActivitiesList) {
 		EntityTableUtil.friendActivitiesList = friendActivitiesList;
 	}
-	
+	public static Friends getSurroundings() {
+		return surroundings;
+	}
+	public static void setSurroundings(Friends surroundings) {
+		EntityTableUtil.surroundings = surroundings;
+	}
+	public static List<Friend> getSurroundingsList() {
+		return surroundingsList;
+	}
+	public static void setSurroundingsList(List<Friend> surroundingsList) {
+		EntityTableUtil.surroundingsList = surroundingsList;
+	}
+	public static void clearSurroundingsList() {
+		EntityTableUtil.surroundingsList.clear();
+	}
+	public static Friends getCheckedFriends() {
+		return checkedFriends;
+	}
+	public static void setCheckedFriends(Friends checkedFriends) {
+		EntityTableUtil.checkedFriends = checkedFriends;
+	}
+	public static List<Friend> getCheckedFriendsList() {
+		return checkedFriendsList;
+	}
+	public static void setCheckedFriendsList(List<Friend> checkedFriendsList) {
+		EntityTableUtil.checkedFriendsList = checkedFriendsList;
+	}
 }

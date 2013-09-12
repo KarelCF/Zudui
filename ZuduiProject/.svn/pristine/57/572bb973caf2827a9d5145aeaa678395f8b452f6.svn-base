@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    
+  <item type="id" name="myspace_activity_imageview_gender"/>
+  <item type="id" name="myspace_activity_imageview_avatar"/>
+  <item type="id" name="myspace_activity_textview_faith"/>
+  <item type="id" name="myspace_activity_imageview_faith"/>
+  <item type="id" name="myspace_activity_gridview_photos"/>
+  <item type="id" name="myspace_activity_gridview_activities"/>
+
+  <item type="id" name="friends_activity_imageview_avatar"/>
+  <item type="id" name="friends_activity_imageview_gender"/>
+  <item type="id" name="friends_activity_textview_distance"/>
+  <item type="id" name="friends_activity_textview_name"/>
+  <item type="id" name="friends_activity_textview_faith"/>
+  
+  <item type="id" name="home_page_item_imageview_category"/>
+  <item type="id" name="home_page_item_textview_title"/>
+  <item type="id" name="home_page_item_textview_distance"/>
+  <item type="id" name="home_page_item_textview_start_time"/>
+  <item type="id" name="home_page_item_textview_address"/>
+  <item type="id" name="home_page_item_gridview_participants"/>
+  <item type="id" name="item_imageview_participant"/>
+  
+  <item type="id" name="vertical_divider"/>
+  
+  <item type="id" name="my_friends_activity_btn_area"/>
+  <item type="id" name="activity_details_imageview"/>
+  <item type="id" name="activity_details_imageview"/>
+  <item type="id" name="activity_detail_textview_shop"/>
+  <item type="id" name="activity_detail_textview_intro"/>
+  <item type="id" name="activity_detail_textview_start_time"/>
+  <item type="id" name="activity_detail_textview_address"/>
+  <item type="id" name="activity_details_textview_distance"/>
+  <item type="id" name="activity_details_mapview"/>
+  <item type="id" name="activity_details_gridview_participants"/>
+  
+  <item type="id" name="friend_space_imageview_avatar"/>
+  <item type="id" name="friend_space_imageview_gender"/>
+  <item type="id" name="friend_space_textview_distance"/>
+  <item type="id" name="friend_space_textview_faith"/>
+  
+  <item type="id" name="surroundings_imageview_avatar"/>
+  <item type="id" name="surroundings_imageview_gender"/>
+  <item type="id" name="surroundings_textview_name"/>
+  <item type="id" name="surroundings_textview_distance"/>
+  <item type="id" name="surroundings_button_add"/>
+  
+</resources>

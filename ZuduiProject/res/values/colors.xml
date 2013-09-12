@@ -20,11 +20,15 @@
 	<color name="text_home_activity_title">#ff000000</color>
 	<color name="text_home_activity_info">#ff606060</color>
 	<color name="text_home_activity_null">#ff000000</color>
+	<color name="text_friend_page_null">#ff000000</color>
 	
 	<color name="background_activity_details_dark">#ff000000</color>
 	<color name="text_activity_details_dark">#ff000000</color>
 	<color name="text_activity_details_light">#ffffffff</color>
-
+	
+	<color name="surrounding_name">#ff000000</color>
+	<color name="surrounding_distance">#dd707070</color>
+	
 
 	
 </resources>

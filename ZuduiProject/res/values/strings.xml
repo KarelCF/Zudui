@@ -16,5 +16,7 @@
     
     <string name="text_my_activity_area">您还没有参加过活动, 赶快参加吧!</string>
     <string name="text_friend_activity_area">TA还没有参加过活动, 赶快邀请TA吧!</string>
-    <string name="text_homepage_activity_area">当前没有活动, 快点击界面刷新一下,或者点击下方按钮发布一个活动吧</string>
+    <string name="text_homepage_activity_area">当前没有活动, 快点击界面刷新一下,或者点击下方按钮发布一个活动吧！</string>
+    
+    <string name="text_friend_page_no_friend">您还没有好友, 快点击下方按钮添加好友吧！</string>
 </resources>

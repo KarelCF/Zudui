@@ -34,4 +34,8 @@ public interface HandlerConditions {
 	public static final int GET_MY_ONGOING_ACTIVITIES = 119;
 	public static final int GET_MY_FINISHED_ACTIVITIES = 120;
 	
+	// SinaFriendFragment π”√
+	public static final int GET_SINA_FRIEND = 130;
+	
+	
 }

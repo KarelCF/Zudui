@@ -29,6 +29,12 @@ public class WebServiceConstants {
     public static final String SOAP_ACTION_QUERY_USER = "http://service.coffe.com/queryUser";
     // 查询好友
     public static final String SOAP_ACTION_QUERY_MY_FRIENDS = "http://service.coffe.com/queryUserFriend";
+    // 查询附近的人
+    public static final String SOAP_ACTION_QUERY_SURROUNDING_PEOPLE = "http://service.coffe.com/queryUserOrderByLocation";
+    // 添加好友
+    public static final String SOAP_ACTION_ADD_FRIEND = "http://service.coffe.com/addFriend";
+    // 删除好友
+    public static final String SOAP_ACTION_DELETE_FRIEND = "http://service.coffe.com/deleteUserFriend";
     
     
     // 调用的方法名
@@ -51,6 +57,11 @@ public class WebServiceConstants {
     public static final String METHOD_QUERY_USER = "queryUser";
     // 查询好友
     public static final String METHOD_QUERY_MY_FRIENDS = "queryUserFriend";
-    
+    // 查询附近的人
+    public static final String METHOD_QUERY_SURROUNDING_PEOPLE = "queryUserOrderByLocation";
+    // 添加好友
+    public static final String METHOD_ADD_FRIEND = "addFriend";
+    // 删除好友
+    public static final String METHOD_DELETE_FRIEND = "deleteUserFriend";
     
 }

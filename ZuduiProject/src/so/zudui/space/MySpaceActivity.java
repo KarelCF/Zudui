@@ -1,7 +1,6 @@
 package so.zudui.space;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,19 +23,15 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -311,7 +306,7 @@ public class MySpaceActivity extends SherlockActivity {
 		imageLoader = imageLoaderUtil.getInstance();
 		options = imageLoaderUtil.getOptions();
 		imageLoader.displayImage(user.getUpicurl(), myAvatarImageView, options);
-		myAvatarImageView.setBackgroundResource(R.drawable.image_border);
+		myAvatarImageView.setBackgroundResource(R.drawable.image_border_light);
 		setMyGender();
 	}
 	

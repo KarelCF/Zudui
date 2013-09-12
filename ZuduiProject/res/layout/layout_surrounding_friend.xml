@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@id/surrounding_friend_layout"
+	android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    
+    <ListView 
+	    android:id="@id/surrounding_friend_listview"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_above="@id/surrounding_friend_btn_area"
+	    />
+    
+    <LinearLayout
+        android:id="@id/surrounding_friend_btn_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" 
+        android:background="@drawable/bg_btn_solid"
+        >
+
+        <ImageButton
+            android:id="@id/surrounding_friend_imagebtn_confirm"
+            android:layout_width="@dimen/btn_bottom_width"
+            android:layout_height="@dimen/btn_bottom_height"
+            android:background="@drawable/pic_btn_confirm"
+            />
+        
+    </LinearLayout>
+	
+</RelativeLayout>

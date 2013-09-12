@@ -46,8 +46,6 @@ public class LaunchActivity extends Activity {
 	
 	private Weibo weiboInstance;   
 	private SsoHandler ssoHandler;
-	
-	private ListView bilateralListView;
 	private ImageButton signInBtn = null; 
 	
 	@Override
@@ -66,7 +64,6 @@ public class LaunchActivity extends Activity {
 	private void initWeiboOauth() {
 		weiboInstance = Weibo.getInstance(OauthConstants.APP_KEY, OauthConstants.REDIRECT_URL, OauthConstants.SCOPE);
 		accessToken = AccessTokenKeeper.readAccessToken(this);  
-		
 	}
 	
 	private void initLaunchActivityView() {
@@ -101,7 +98,7 @@ public class LaunchActivity extends Activity {
 			}
 			while (code == null || code.equals(""));
 			accessTokenInfo = util.getAccessTokenInfoByCode(code);
-			getAccessToken(accessTokenInfo);
+			getAccessToken();
 			accessToken = new Oauth2AccessToken(token, expiresIn);
 			isAccessTokenVaild();
 			return null;
@@ -112,7 +109,7 @@ public class LaunchActivity extends Activity {
 			progressDialog = ProgressDialog.show(LaunchActivity.this, null, "µÇÂ½ÖÐ...", true);
 		}
 			
-		private void getAccessToken(AccessTokenInfo accessTokenInfo) {
+		private void getAccessToken() {
 			token = accessTokenInfo.getAccessToken();
 			expiresIn = accessTokenInfo.getExpiresIn();
 			uid = accessTokenInfo.getUid();

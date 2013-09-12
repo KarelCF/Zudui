@@ -6,22 +6,18 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import so.zudui.condition.HandlerConditions;
 import so.zudui.util.GsonUtil;
 import so.zudui.util.HttpUtil;
 import so.zudui.weibo.entity.AccessTokenInfo;
 import so.zudui.weibo.oauth.OauthConstants;
 
-import android.os.Handler;
-import android.os.Message;
-
 
 public class AccessTokenUtil {
 	
 	private static final String ACCESS_TOKEN_URL = "https://api.weibo.com/oauth2/access_token";
+	private static AccessTokenInfo accessTokenInfo = null;
 	private List<NameValuePair> params = new ArrayList<NameValuePair>();
 	private String result;
-	private AccessTokenInfo accessTokenInfo = null;
 	
 	public AccessTokenInfo getAccessTokenInfoByCode(String code) {
 		preparePostRequestParams(code);

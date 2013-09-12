@@ -12,6 +12,18 @@
         android:layout_alignParentTop="true"
         android:layout_above="@id/my_friends_activity_btn_area"
         />
+    
+    <TextView
+	    android:id="@+id/friends_page_textview_no_friend"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingLeft="70dp"
+		android:paddingRight="70dp"
+		android:gravity="center"
+		android:textColor="@color/text_friend_page_null"
+		android:textSize="15sp"
+		android:text="@string/text_friend_page_no_friend"
+		/>
 
     <LinearLayout
         android:id="@id/my_friends_activity_btn_area"

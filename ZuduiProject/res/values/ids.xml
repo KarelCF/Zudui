@@ -25,6 +25,9 @@
   <item type="id" name="vertical_divider"/>
   
   <item type="id" name="my_friends_activity_btn_area"/>
+ 
+  
+  
   <item type="id" name="activity_details_imageview"/>
   <item type="id" name="activity_details_imageview"/>
   <item type="id" name="activity_detail_textview_shop"/>
@@ -39,5 +42,23 @@
   <item type="id" name="friend_space_imageview_gender"/>
   <item type="id" name="friend_space_textview_distance"/>
   <item type="id" name="friend_space_textview_faith"/>
+  
+  <item type="id" name="surroundings_imageview_avatar"/>
+  <item type="id" name="surroundings_imageview_gender"/>
+  <item type="id" name="surroundings_textview_name"/>
+  <item type="id" name="surroundings_textview_distance"/>
+  <item type="id" name="surroundings_checkbox_add"/>
+  
+  <item type="id" name="surrounding_friend_layout"/>
+  <item type="id" name="surrounding_friend_listview"/>
+  <item type="id" name="surrounding_friend_imagebtn_confirm"/>
+   <item type="id" name="surrounding_friend_btn_area"/>
+   
+   
+  <item type="id" name="weibos_imageview_avatar"/>
+  <item type="id" name="weibos_imageview_gender"/>
+  <item type="id" name="weibos_textview_name"/>
+  <item type="id" name="weibos_checkbox_add"/>
+  
   
 </resources>
